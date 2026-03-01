@@ -481,6 +481,24 @@ body {
     color: #e8eaed;
 }
 
+/* Custom Scrollbar for Dropdown Context if supported */
+.lang-select::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lang-select::-webkit-scrollbar-track {
+    background: #202124;
+}
+
+.lang-select::-webkit-scrollbar-thumb {
+    background: #5f6368;
+    border-radius: 4px;
+}
+
+.lang-select::-webkit-scrollbar-thumb:hover {
+    background: #9aa0a6;
+}
+
 .lang-select:hover,
 .lang-select:focus {
     background-color: var(--surface-hover);
