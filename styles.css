@@ -476,6 +476,11 @@ body {
     width: 100%;
 }
 
+.lang-select option {
+    background-color: #202124;
+    color: #e8eaed;
+}
+
 .lang-select:hover,
 .lang-select:focus {
     background-color: var(--surface-hover);
