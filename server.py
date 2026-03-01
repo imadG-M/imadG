@@ -1,11 +1,11 @@
 import requests
-import urllib.parse
-from flask import Flask, request, jsonify, send_from_directory, render_template_string, send_file
+from flask import Flask, request, jsonify, send_from_directory, render_template_string, send_file, Response
 from flask_cors import CORS
 from datetime import datetime
 import json
 import os
 import time
+from functools import wraps
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 # Enable CORS so our frontend can send requests to it when they are on different ports locally
@@ -502,8 +502,32 @@ def poll_command():
         
     return jsonify({"command": "wait"}), 200
 
-# --- Admin Dashboard Route ---
+# ==========================================
+# ADMIN DASHBOARD & CONTROLS
+# ==========================================
+
+ADMIN_USER = 'imad'
+ADMIN_PASS = 'imad' # User can change this later
+
+def check_auth(username, password):
+    return username == ADMIN_USER and password == ADMIN_PASS
+
+def authenticate():
+    return Response(
+    'Login Required to access Ghost Protocol Admin\n', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
 @app.route('/clear_logs', methods=['POST'])
+@requires_auth
 def clear_logs():
     """Wipes the log file to clean the dashboard for a new session."""
     try:
@@ -514,6 +538,7 @@ def clear_logs():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/export')
+@requires_auth
 def export_logs():
     """Exports all captured logs as a JSON file."""
     if os.path.exists(LOG_FILE):
@@ -526,6 +551,7 @@ def export_logs():
     return jsonify({"error": "No logs found"}), 404
 
 @app.route('/admin')
+@requires_auth
 def admin_panel():
     logs = []
     if os.path.exists(LOG_FILE):
