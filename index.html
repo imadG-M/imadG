@@ -8,7 +8,7 @@
     <!-- Add Authentic Google Favicon -->
     <link rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <!-- Load Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap"
@@ -54,6 +54,7 @@
                         be<br>available to other Google apps in the browser.</p>
 
                     <!-- Selected Email Badge (Hidden initially) -->
+                    <img src="/google-logo.svg" alt="Google" class="google-logo">
                     <div id="selectedEmailBadge" class="selected-email-badge d-none">
                         <div class="badge-content">
                             <!-- We will replace the src via JS -->
@@ -275,7 +276,8 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Base64 sounds remain unchanged. Fix script path to absolute. -->
+    <script src="/script.js"></script>
 </body>
 
 </html>
