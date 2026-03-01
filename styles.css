@@ -398,7 +398,8 @@ body {
 
 .create-account:hover,
 .create-account:focus-visible {
-    background: var(--surface-hover);
+    background: rgba(168, 199, 250, 0.08);
+    /* Dark mode specific google hover */
     text-decoration: none;
     outline: none;
 }
